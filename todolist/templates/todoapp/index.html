@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>To-Do List</title>
+    <style>
+          .submit_form{
+              font-size: large;
+            padding: 5%;
+            background: yellowgreen;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4),
+                        0 6px 20px 0 rgba(0,0,0,0.36);
+            }
+    </style>
+</head>
+<body>
+    <div class="container submit_form" style="padding-left:350px;">
+        <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <button type="submit" style="border-radius:5px;margin-left:150px;">Add to List</button>
+        </form>
+    </div>
+    <p></p>
+    <div>
+        <div class="container" style="background-color:bisque;border-radius: 25px;">
+            <h1 style="color:red;text-align: center;">Tasks Pending</h1>
+            {% for task in task_lists %}
+                <ul>
+                    <li><h2>{{task.title}}</h2></li>
+                    <h5 style="padding-left: 40px;">{{task.description}}</h5>
+                    <form action="remove/{{task.id}}/" method="POST">
+                        {% csrf_token %}
+                        <button value="remove" type="submit"  class="btn btn-primary" style="float:right;"><span class="glyphicon glyphicon-trash"></span>Remove</button>
+                    </form>
+                </ul>
+                <br>
+                <hr style="border-top: 1px solid black">
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
